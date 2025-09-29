@@ -3,6 +3,9 @@
 
 # CECI EST UN FICHIER JUSTE POUR LE DEPLOIEMENT SUR RAILWAY
 
+# Génération des tables
+php artisan migrate --force --seed
+
 # Exit the script if any command fails
 set -e
 
@@ -17,6 +20,3 @@ php artisan config:cache
 php artisan event:cache
 php artisan route:cache
 php artisan view:cache
-
-# Génération des tables
-php artisan migrate --force --seed
