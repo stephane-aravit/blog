@@ -46,8 +46,9 @@ export interface Post {
     user_id: number | null;
     created_at: string;
     updated_at: string;
-    categories: Category[]; // Le controller envoie aussi les catégories liées à l'article (relation BelongsToMany via table pivot)
-    user: User; // Idem (relation belongsTo via user_id)
+    categories: Category[];
+    comments: Comment[];
+    user: User;
 }
 
 export interface Category {
@@ -56,7 +57,7 @@ export interface Category {
     description: string;
     created_at: string;
     updated_at: string;
-    posts: Post[]; // Articles liés au commentaire
+    posts: Post[];
 }
 
 export interface Comment {
@@ -66,6 +67,6 @@ export interface Comment {
     user_id: number;
     created_at: string;
     updated_at: string;
-    post: Post; // Article lié au commentaire (ex: afficher aussi les titres des articles dans la liste des commentaires)
-    user: User; // Idem
+    post: Post;
+    user: User;
 }

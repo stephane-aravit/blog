@@ -8,6 +8,7 @@ const props = defineProps<{
     posts: Post[];
     categories: Category[];
 }>();
+console.log(props.posts);
 </script>
 
 <template>
@@ -45,13 +46,14 @@ const props = defineProps<{
             <div class="w-full max-w-[335px] lg:max-w-4xl">
                 <h1 class="mb-6 text-4xl leading-tight font-extrabold tracking-tighter lg:text-5xl">Bienvenue sur le blog</h1>
                 <p class="mb-6 text-lg leading-relaxed text-[#52534e] dark:text-[#A3A29E]">
-                    C'est une application simple construite avec Laravel et Inertia. Vous pouvez gérer les articles, les catégories et les
-                    commentaires. Veuillez vous connecter ou vous inscrire pour commencer.
+                    C'est une application simple construite avec Laravel et Vue. Vous pouvez gérer les articles, les catégories, les commentaires et
+                    les utilisateurs, en fonction de votre rôle.<br />Vous pouvez vous connecter en administrateur (admin@blog.com + password) ou vous
+                    inscrire en tant que lecteur pour commencer.
                 </p>
                 <Link
                     v-if="!$page.props.auth.user"
                     :href="register()"
-                    class="inline-block rounded bg-[#191400] px-6 py-3 text-lg font-semibold text-white hover:bg-[#2c2a00] dark:bg-[#EDEDEC] dark:text-[#1b1b18] dark:hover:bg-[#c4c3c0]"
+                    class="mb-6 inline-block rounded bg-[#191400] px-6 py-3 text-lg font-semibold text-white hover:bg-[#2c2a00] dark:bg-[#EDEDEC] dark:text-[#1b1b18] dark:hover:bg-[#c4c3c0]"
                 >
                     Commencer
                 </Link>
@@ -62,7 +64,7 @@ const props = defineProps<{
                 <h2 class="mb-4 text-xl font-bold">Derniers articles créés</h2>
                 <div v-if="!props.posts.length" class="text-gray-500">Aucun article actuellement.</div>
                 <ul v-else class="space-y-4">
-                    <li v-for="post in props.posts" :key="post.id" class="rounded-lg border p-4 shadow transition hover:shadow-lg">
+                    <li v-for="post in props.posts.slice(0, 5)" :key="post.id" class="rounded-lg border p-4 shadow transition hover:shadow-lg">
                         <p class="text-2xl font-semibold text-blue-600">
                             {{ post.title }}
                         </p>
@@ -70,13 +72,26 @@ const props = defineProps<{
                             {{ post.content.slice(0, 250) }}<span v-if="post.content.length > 250"> ...</span>
                         </p>
                         <p class="mt-2 text-sm text-gray-500">
-                            Catégories:
+                            Catégories :
                             <span v-if="post.categories.length">
-                                <span v-for="(category, index) in post.categories" :key="category.valueOf">
+                                <span v-for="(category, index) in post.categories" :key="category.id">
                                     {{ category.name }}<span v-if="index < post.categories.length - 1">, </span>
                                 </span>
                             </span>
                             <span v-else>Aucune catégorie</span>
+                        </p>
+                        <p class="mt-2 text-sm text-gray-500">
+                            Auteur :
+                            {{ post.user.name }}
+                        </p>
+                        <p class="mt-2 text-sm text-gray-500">
+                            Commentaires :
+                            <div v-if="post.comments && post.comments.length">
+                                <div v-for="(comment, index) in post.comments" :key="comment.id">
+                                    <i>{{ comment.content }}</i> | {{ comment.user.name }}
+                                </div>
+                            </div>
+                            <span v-else>-</span>
                         </p>
                     </li>
                 </ul>

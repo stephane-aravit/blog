@@ -4,7 +4,6 @@ namespace Database\Seeders;
 
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
-
 use App\Models\Post;
 use App\Models\Category;
 use App\Models\Comment;
@@ -12,7 +11,6 @@ use App\Models\User;
 use Faker\Factory as Faker;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Schema;
-
 
 class FakeBlogDataSeeder extends Seeder
 {
@@ -30,6 +28,16 @@ class FakeBlogDataSeeder extends Seeder
         DB::table('categories')->truncate();
         DB::table('users')->truncate();
         Schema::enableForeignKeyConstraints();
+
+        // Création de l'admin
+        User::create([
+            'name' => 'Stephane',
+            'email' => 'admin@blog.com',
+            'password' => bcrypt('password'), // mot de passe par défaut
+            'role' => 'admin',
+            'created_at' => $faker->dateTimeBetween('-14 months', '-13 months'),
+            'updated_at' => now(),
+        ]);
 
         // Créer des utilisateurs
         $users = [];
@@ -50,7 +58,7 @@ class FakeBlogDataSeeder extends Seeder
         $categories = [];
         for ($i = 0; $i < 5; $i++) {
             $categories[] = Category::create([
-                'name' => ucfirst($faker->words(rand(1,3), true)),  // majuscule, aléatoire entre 2 et 4 mots, mode phrase (pas tableau)
+                'name' => ucfirst($faker->words(rand(1, 3), true)),  // majuscule, aléatoire entre 2 et 4 mots, mode phrase (pas tableau)
                 'description' => ucfirst($faker->sentence(5)),
                 'created_at' => $faker->dateTimeBetween('-13 months', '-12 months'),
                 'updated_at' => now(),
@@ -63,7 +71,7 @@ class FakeBlogDataSeeder extends Seeder
         for ($i = 0; $i < 50; $i++) {
             $posts[] = Post::create([
                 'user_id' => $faker->randomElement($postsWriters)->id,
-                'title' => ucfirst($faker->words(rand(4,8), true)),
+                'title' => ucfirst($faker->words(rand(4, 8), true)),
                 'content' => ucfirst($faker->paragraph(5)),
                 'created_at' => $faker->dateTimeBetween('-12 months', 'now'),
                 'updated_at' => now(),
@@ -73,7 +81,7 @@ class FakeBlogDataSeeder extends Seeder
         // On associe les articles aux catégories
         foreach ($posts as $post) {
             $randomCategories = $faker->randomElements($categories, rand(1, 2));
-            $post->categories()->sync(array_map(fn($cat) => $cat->id, $randomCategories));
+            $post->categories()->sync(array_map(fn ($cat) => $cat->id, $randomCategories));
         }
 
         // Créer des commentaires
