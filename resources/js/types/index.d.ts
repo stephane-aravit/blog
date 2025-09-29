@@ -28,10 +28,44 @@ export interface User {
     id: number;
     name: string;
     email: string;
+    password: string;
+    password_confirmation: string;
     avatar?: string;
     email_verified_at: string | null;
     created_at: string;
     updated_at: string;
+    role: string;
 }
 
 export type BreadcrumbItemType = BreadcrumbItem;
+
+export interface Post {
+    id: number;
+    title: string;
+    content: string;
+    user_id: number | null;
+    created_at: string;
+    updated_at: string;
+    categories: Category[]; // Le controller envoie aussi les catégories liées à l'article (relation BelongsToMany via table pivot)
+    user: User; // Idem (relation belongsTo via user_id)
+}
+
+export interface Category {
+    id: number;
+    name: string;
+    description: string;
+    created_at: string;
+    updated_at: string;
+    posts: Post[]; // Articles liés au commentaire
+}
+
+export interface Comment {
+    id: number;
+    content: string;
+    post_id: number;
+    user_id: number;
+    created_at: string;
+    updated_at: string;
+    post: Post; // Article lié au commentaire (ex: afficher aussi les titres des articles dans la liste des commentaires)
+    user: User; // Idem
+}
