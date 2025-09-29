@@ -14,16 +14,34 @@ use Illuminate\Support\Facades\Auth;
 class PostController extends Controller
 {
     use AuthorizesRequests;
-    
+
     /**
      * Affiche la liste des articles.
      */
-    public function index()
+    public function index(Request $request)
     {
+        // Vérification des droits de l'utilisateur connecté
         $this->authorize('viewAny', Post::class);   // On envoie ici juste la classe Post (string), pas l'instance car on ne manipule pas cette dernière
 
+        // Requête de base sur les articles
+        $query = Post::with('categories');
+
+        // Ajout filtre par mot-clés si présent
+        if ($request->filled('search')) {
+            $query->where('title', 'like', "%{$request->search}%")->orWhere('content', 'like', "%{$request->search}%");
+        }
+
+        // Ajout ordre de tri
+        $sortField = $request->input('sort_field', 'created_at');
+        $sortOrder = $request->input('sort_order', 'desc');
+        $query->orderBy($sortField, $sortOrder);
+
+        // Ajout pagination
+        $posts = $query->paginate(10)->withQueryString();
+
         return Inertia::render('posts/Index', [
-            'posts' => Post::with('categories')->get(),
+            'posts' => $posts,
+            'filters' => $request->only(['search', 'sort_field', 'sort_order']),
         ]);
     }
 
@@ -46,7 +64,7 @@ class PostController extends Controller
     public function store(Request $request)
     {
         $this->authorize('create', Post::class);
-        
+
         $validated = $request->validate([
             'title' => 'required|max:255',
             'content' => 'required',
@@ -55,7 +73,7 @@ class PostController extends Controller
         ]);
 
         try {
-            
+
             $post = Post::create([
                 'title' => $validated['title'],
                 'content' => $validated['content'],
@@ -71,7 +89,7 @@ class PostController extends Controller
             return redirect()->route('posts.index')->with('flash', [
                 'success' => 'Article créé avec succès.',
             ]);
-        
+
         } catch (\Exception $e) {
 
             Log::error('Erreur création article', [
@@ -130,7 +148,7 @@ class PostController extends Controller
         try {
 
             $post->update([
-                'title' => $validated['title'],                
+                'title' => $validated['title'],
                 'content' => $validated['content'],
                 'user_id' => Auth::user()->role === 'admin' ? $validated['user_id'] : Auth::id(),
             ]);
@@ -138,7 +156,7 @@ class PostController extends Controller
             if (!empty($validated['categories'])) {
                 $post->categories()->sync($validated['categories']);
             } else {
-                $post->categories()->detach();         
+                $post->categories()->detach();
             }
 
             Log::info('Mise à jour article #' . $post->id);
