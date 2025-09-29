@@ -12,9 +12,11 @@ export default defineConfig({
             refresh: true,
         }),
         tailwindcss(),
-        wayfinder({
-            formVariants: true,
-        }),
+        process.env.NODE_ENV !== 'production' // désactivation de wayfinder en prod car problème sur railway
+            ? wayfinder({
+                  formVariants: true,
+              })
+            : null,
         vue({
             template: {
                 transformAssetUrls: {
@@ -23,5 +25,5 @@ export default defineConfig({
                 },
             },
         }),
-    ],
+    ].filter(Boolean), // supprime les nulls pour prod,
 });
