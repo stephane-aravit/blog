@@ -1,31 +1,39 @@
-<script setup>
+<script setup lang="ts">
 import { usePage } from '@inertiajs/vue3';
 import { computed, ref, watch } from 'vue';
 
 const page = usePage();
-const flashProps = computed(() => page.props.flash ?? {});
+type FlashMessages = {
+    success?: string;
+    error?: string;
+    warning?: string;
+    info?: string;
+};
+const flashProps = computed(() => (page.props.flash as FlashMessages) ?? {}); // flashProps est un computed donc en lecture seule donc pas vidable donc aura toujours la meme valeur
+const localFlash = ref<FlashMessages>({}); // on utilises donc une copie effaçable pour le cas du rechargement de page (ex: filtre liste)
 
-const type = ref(null);
+const type = ref('');
 const message = ref('');
 const show = ref(false);
-let timeout = ref(null);
+const timeout = ref<number>(0);
 
 watch(
     () => flashProps.value,
     (flash) => {
         if (flash) {
-            if (flash.success) {
+            localFlash.value = { ...flash };
+            if (localFlash.value.success) {
                 type.value = 'success';
-                message.value = flash.success;
-            } else if (flash.error) {
+                message.value = localFlash.value.success;
+            } else if (localFlash.value.error) {
                 type.value = 'error';
-                message.value = flash.error;
-            } else if (flash.warning) {
+                message.value = localFlash.value.error;
+            } else if (localFlash.value.warning) {
                 type.value = 'warning';
-                message.value = flash.warning;
-            } else if (flash.info) {
+                message.value = localFlash.value.warning;
+            } else if (localFlash.value.info) {
                 type.value = 'info';
-                message.value = flash.info;
+                message.value = localFlash.value.info;
             }
 
             if (message.value) {
@@ -36,6 +44,8 @@ watch(
                 timeout.value = setTimeout(() => {
                     show.value = false;
                 }, 5000);
+
+                localFlash.value = {};
             }
         }
     },
