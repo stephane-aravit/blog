@@ -8,7 +8,6 @@ const props = defineProps<{
     posts: Post[];
     categories: Category[];
 }>();
-console.log(props.posts);
 </script>
 
 <template>
@@ -87,7 +86,7 @@ console.log(props.posts);
                         <p class="mt-2 text-sm text-gray-500">
                             Commentaires :
                             <div v-if="post.comments && post.comments.length">
-                                <div v-for="(comment, index) in post.comments" :key="comment.id">
+                                <div v-for="(comment) in post.comments" :key="comment.id">
                                     <i>{{ comment.content }}</i> | {{ comment.user.name }}
                                 </div>
                             </div>
