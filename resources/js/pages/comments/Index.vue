@@ -1,7 +1,6 @@
 <script setup lang="ts">
 import AppLayout from '@/layouts/AppLayout.vue';
-import { Inertia } from '@inertiajs/inertia';
-import { Head, Link } from '@inertiajs/vue3';
+import { Head, Link, router } from '@inertiajs/vue3';
 
 import { type BreadcrumbItem } from '@/types';
 const breadcrumbs: BreadcrumbItem[] = [
@@ -45,7 +44,7 @@ const props = defineProps<{
                                 Éditer
                             </Link>
                             <button
-                                @click="Inertia.delete(`/comments/${comment.id}`, { preserveScroll: true })"
+                                @click="router.delete(`/comments/${comment.id}`, { preserveScroll: true })"
                                 class="cursor-pointer rounded bg-red-500 px-3 py-1 text-white hover:bg-red-600"
                             >
                                 Supprimer

@@ -1,7 +1,6 @@
 <script setup lang="ts">
 import AppLayout from '@/layouts/AppLayout.vue';
-import { Inertia } from '@inertiajs/inertia';
-import { Head, Link } from '@inertiajs/vue3';
+import { Head, Link, router } from '@inertiajs/vue3';
 import { ref } from 'vue';
 
 import { type BreadcrumbItem } from '@/types';
@@ -34,7 +33,7 @@ const sortOrder = ref(props.filters.sort_order || 'desc');
 
 // On recharge la page avec les nouveaux filtres détectés
 function applyFilters() {
-    Inertia.get(
+    router.get(
         'posts',
         {
             search: search.value,
@@ -47,7 +46,7 @@ function applyFilters() {
 
 // On recharge la page en allant à la page demandée
 function goToPage(page: number) {
-    Inertia.get(
+    router.get(
         'posts',
         {
             page,
@@ -132,7 +131,7 @@ function goToPage(page: number) {
                                 Éditer
                             </Link>
                             <button
-                                @click="Inertia.delete(`/posts/${post.id}`, { preserveScroll: true })"
+                                @click="router.delete(`/posts/${post.id}`, { preserveScroll: true })"
                                 class="cursor-pointer rounded bg-red-500 px-3 py-1 text-white hover:bg-red-600"
                             >
                                 Supprimer
@@ -146,7 +145,7 @@ function goToPage(page: number) {
                         :key="page"
                         @click="goToPage(page)"
                         :class="[
-                            'mr-2 ml-2 inline-block rounded border-blue-500 px-4 py-2 hover:ring-1 hover:ring-blue-500',
+                            'mr-2 ml-2 inline-block cursor-pointer rounded border-blue-500 px-4 py-2 hover:ring-1 hover:ring-blue-500',
                             props.posts.current_page == page ? 'border-2 font-bold' : 'border',
                         ]"
                     >

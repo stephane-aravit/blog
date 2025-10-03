@@ -1,8 +1,7 @@
 <script setup lang="ts">
 import AppLayout from '@/layouts/AppLayout.vue';
 import { Category } from '@/types';
-import { Inertia } from '@inertiajs/inertia';
-import { Head, Link } from '@inertiajs/vue3';
+import { Head, Link, router } from '@inertiajs/vue3';
 
 import { type BreadcrumbItem } from '@/types';
 const breadcrumbs: BreadcrumbItem[] = [
@@ -15,7 +14,6 @@ const breadcrumbs: BreadcrumbItem[] = [
 const props = defineProps<{
     categories: Category[];
 }>();
-console.log(props.categories);
 </script>
 <template>
     <Head title="Liste des catégories" />
@@ -42,7 +40,7 @@ console.log(props.categories);
                                 Éditer
                             </Link>
                             <button
-                                @click="Inertia.delete(`/categories/${category.id}`, { preserveScroll: true })"
+                                @click="router.delete(`/categories/${category.id}`, { preserveScroll: true })"
                                 class="cursor-pointer rounded bg-red-500 px-3 py-1 text-white hover:bg-red-600"
                             >
                                 Supprimer

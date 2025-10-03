@@ -1,7 +1,6 @@
 <script setup lang="ts">
 import AppLayout from '@/layouts/AppLayout.vue';
-import { Inertia } from '@inertiajs/inertia';
-import { Head, Link, useForm, usePage } from '@inertiajs/vue3';
+import { Head, Link, router, useForm, usePage } from '@inertiajs/vue3';
 
 const page = usePage();
 
@@ -116,7 +115,7 @@ const submit = () => {
                             Éditer
                         </Link>
                         <button
-                            @click="Inertia.delete(`/posts/${props.post.id}`, { preserveScroll: true })"
+                            @click="router.delete(`/posts/${props.post.id}`, { preserveScroll: true })"
                             class="cursor-pointer rounded bg-red-500 px-3 py-1 text-white hover:bg-red-600"
                         >
                             Supprimer

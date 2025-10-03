@@ -1,7 +1,6 @@
 <script setup lang="ts">
 import AppLayout from '@/layouts/AppLayout.vue';
-import { Inertia } from '@inertiajs/inertia';
-import { Head, Link, useForm } from '@inertiajs/vue3';
+import { Head, Link, router, useForm } from '@inertiajs/vue3';
 
 import { type BreadcrumbItem } from '@/types';
 const breadcrumbs: BreadcrumbItem[] = [
@@ -17,7 +16,6 @@ const props = defineProps<{
     roles?: string[];
     readonly?: boolean;
 }>();
-console.log(props.user, props.roles);
 
 const form = useForm<Pick<User, 'name' | 'email' | 'password' | 'password_confirmation' | 'role'>>({
     name: props.user?.name ?? '',
@@ -115,7 +113,7 @@ const submit = () => {
                             Éditer
                         </Link>
                         <button
-                            @click="Inertia.delete(`/users/${props.user.id}`, { preserveScroll: true })"
+                            @click="router.delete(`/users/${props.user.id}`, { preserveScroll: true })"
                             class="cursor-pointer rounded bg-red-500 px-3 py-1 text-white hover:bg-red-600"
                         >
                             Supprimer
