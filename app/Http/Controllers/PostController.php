@@ -23,7 +23,7 @@ class PostController extends Controller
         // Vérification des droits de l'utilisateur connecté
         $this->authorize('viewAny', Post::class);   // On envoie ici juste la classe Post (string), pas l'instance car on ne manipule pas cette dernière
 
-        // Requête de base sur les articles
+        // Requête de base
         $query = Post::with('categories');
 
         // Ajout filtre par mot-clés si présent

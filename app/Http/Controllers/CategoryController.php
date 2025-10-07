@@ -15,12 +15,31 @@ class CategoryController extends Controller
     /**
      * Affiche la liste des catégories.
      */
-    public function index()
+    public function index(Request $request)
     {
         $this->authorize('viewAny', Category::class);
 
+        // Requête de base
+        $query = Category::with('posts');
+
+        // Ajout filtre par mot-clés si présent
+        if ($request->filled('search')) {
+            $query
+                ->where('name', 'like', "%{$request->search}%")
+                ->orWhere('description', 'like', "%{$request->search}%");
+        }
+
+        // Ajout ordre de tri
+        $sortField = 'name';
+        $sortOrder = $request->input('sort_order', 'asc');
+        $query->orderBy($sortField, $sortOrder);
+
+        // Ajout pagination
+        $categories = $query->paginate(10)->withQueryString();
+
         return Inertia::render('categories/Index', [
-            'categories' => Category::with('posts')->get(),
+            'categories' => $categories,
+            'filters' => $request->only(['search', 'sort_order']),
         ]);
     }
 

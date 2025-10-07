@@ -11,20 +11,39 @@ use Illuminate\Validation\Rules;
 use Illuminate\Support\Facades\Hash;
 use App\Enums\Role;
 
-
 class UserController extends Controller
 {
     use AuthorizesRequests;
-    
+
     /**
      * Affiche la liste des utilisateurs.
      */
-    public function index()
+    public function index(Request $request)
     {
         $this->authorize('viewAny', User::class);
 
+        // Requête de base
+        $query = User::query();
+
+        // Ajout filtre par mot-clés si présent
+        if ($request->filled('search')) {
+            $query
+                ->where('name', 'like', "%{$request->search}%")
+                ->orWhere('email', 'like', "%{$request->search}%")
+                ->orWhere('role', 'like', "%{$request->search}%");
+        }
+
+        // Ajout ordre de tri
+        $sortField = 'name';
+        $sortOrder = $request->input('sort_order', 'asc');
+        $query->orderBy($sortField, $sortOrder);
+
+        // Ajout pagination
+        $users = $query->paginate(10)->withQueryString();
+
         return Inertia::render('users/Index', [
-            'users' => User::all(),
+            'users' => $users,
+            'filters' => $request->only(['search', 'sort_order']),
         ]);
     }
 
@@ -55,7 +74,7 @@ class UserController extends Controller
         ]);
 
         try {
-            
+
             $user = User::create([
                 'name' => $validated['name'],
                 'email' => $validated['email'],
@@ -70,7 +89,7 @@ class UserController extends Controller
             return redirect()->route('users.index')->with('flash', [
                 'success' => 'Utilisateur créé avec succès.',
             ]);
-        
+
         } catch (\Exception $e) {
 
             Log::error('Erreur création utilisateur', [

@@ -18,12 +18,29 @@ class CommentController extends Controller
     /**
      * Affiche la liste des commentaires.
      */
-    public function index()
+    public function index(Request $request)
     {
         $this->authorize('viewAny', Comment::class);
 
+        // Requête de base
+        $query = Comment::with(['post', 'post.categories', 'user']);
+
+        // Ajout filtre par mot-clés si présent
+        if ($request->filled('search')) {
+            $query->where('content', 'like', "%{$request->search}%");
+        }
+
+        // Ajout ordre de tri
+        $sortField = $request->input('sort_field', 'created_at');
+        $sortOrder = $request->input('sort_order', 'desc');
+        $query->orderBy($sortField, $sortOrder);
+
+        // Ajout pagination
+        $comments = $query->paginate(10)->withQueryString();
+
         return Inertia::render('comments/Index', [
-            'comments' => Comment::with(['post', 'post.categories', 'user'])->get(),
+            'comments' => $comments,
+            'filters' => $request->only(['search', 'sort_field', 'sort_order']),
         ]);
     }
 
@@ -73,7 +90,7 @@ class CommentController extends Controller
                 'message' => $e->getMessage(),
                 'trace'   => $e->getTraceAsString(),
             ]);
-            
+
             return redirect()->back()->withInput()->with('flash', [
                 'error' => 'Erreur lors de la création du commentaire.',
             ]);
