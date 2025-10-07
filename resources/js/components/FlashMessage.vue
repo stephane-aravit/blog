@@ -1,55 +1,43 @@
 <script setup lang="ts">
 import { usePage } from '@inertiajs/vue3';
-import { computed, ref, watch } from 'vue';
+import { ref, watch } from 'vue';
 
-const page = usePage();
 type FlashMessages = {
     success?: string;
     error?: string;
     warning?: string;
     info?: string;
 };
-const flashProps = computed(() => (page.props.flash as FlashMessages) ?? {}); // flashProps est un computed donc en lecture seule donc pas vidable donc aura toujours la meme valeur
-const localFlash = ref<FlashMessages>({}); // on utilises donc une copie effaçable pour le cas du rechargement de page (ex: filtre liste)
 
-const type = ref('');
+const page = usePage();
+const type = ref<keyof FlashMessages | ''>('');
 const message = ref('');
 const show = ref(false);
-const timeout = ref<number>(0);
+let timeout: number | undefined;
 
 watch(
-    () => flashProps.value,
+    () => page.props.flash as FlashMessages,
     (flash) => {
-        if (flash) {
-            localFlash.value = { ...flash };
-            if (localFlash.value.success) {
-                type.value = 'success';
-                message.value = localFlash.value.success;
-            } else if (localFlash.value.error) {
-                type.value = 'error';
-                message.value = localFlash.value.error;
-            } else if (localFlash.value.warning) {
-                type.value = 'warning';
-                message.value = localFlash.value.warning;
-            } else if (localFlash.value.info) {
-                type.value = 'info';
-                message.value = localFlash.value.info;
-            }
+        if (!flash) return;
 
-            if (message.value) {
-                show.value = true;
+        const foundEntry = Object.entries(flash).find((entry) => Boolean(entry[1]));
+        if (!foundEntry) return;
 
-                if (timeout.value) clearTimeout(timeout.value);
+        const [foundType, foundMessage] = foundEntry as [keyof FlashMessages, string];
+        type.value = foundType;
+        message.value = foundMessage;
+        show.value = true;
 
-                timeout.value = setTimeout(() => {
-                    show.value = false;
-                }, 5000);
+        if (timeout) clearTimeout(timeout);
 
-                localFlash.value = {};
-            }
-        }
+        timeout = window.setTimeout(() => {
+            show.value = false;
+        }, 5000);
+
+        // On vide les notifications pour ne pas qu'elles se réaffichent sur la même page
+        page.props.flash = {};
     },
-    { immediate: true },
+    { immediate: true, deep: true },
 );
 </script>
 
