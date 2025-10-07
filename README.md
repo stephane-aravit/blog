@@ -1,15 +1,19 @@
 # ✅ Blog - Laravel / Inertia / Vue
 
 Une application **Blog** basique, construite avec **Laravel 12**, **Inertia 2** et **Vue.js 3**.  
-Elle permet de gérer des articles, des catégories, des commentaires et des utilisateurs.
-La page d'accueil du frontoffice montre les derniers articles et la création d'un compte permet l'accès au backoffice, où l'utilisateur - en fonction de son rôle - pourra créer/lire/modifier/supprimer des éléments.
-La page d'accueil du backoffice montre les derniers éléments créés ainsi qu'un graphique d'évolution.
-Un filtre de recherche est présent sur les listes.
+Elle permet de gérer des articles, des catégories, des commentaires et des utilisateurs.  
+La page d'accueil du frontoffice montre les derniers articles et permet la création ou la connexion à un compte.  
+La page d'accueil du backoffice montre les derniers éléments créés ainsi qu'un graphique d'évolution.  
+L'utilisateur en fonction de son rôle, pourra créer/lire/modifier/supprimer des éléments.    
+Un filtre de recherche et une pagination sont présents sur les listes.
+L'utilisateur connecté a accès à son profil pour le modifier.
 
 
 ## 👀 Aperçu
-![screenshot](src/assets/screenshot.png)
-
+![Frontoffice : Accueil](src/assets/screenshot-frontoffice-accueil.png)
+![Backoffice : Tableau de bord](src/assets/screenshot-backoffice-tableau-de-bord.png)
+![Backoffice : Liste articles](src/assets/screenshot-backoffice-liste-articles.png)
+![Backoffice : Edition article](src/assets/screenshot-backoffice-edition-article.png)
 
 
 ## 🛠️ Technologies
@@ -21,9 +25,9 @@ Un filtre de recherche est présent sur les listes.
 
 
 ## ✨ Fonctionnalités
-- Authentification
-- Créer/Lire/Modifier/Supprimer un élément de type article/catégorie/commentaire/utilisateur 
-- Filtrer une recherche  
+- Authentification et profil utilisateur
+- Création/Lecture/Modification/Suppression un élément de type article/catégorie/commentaire/utilisateur 
+- Filtrage d'une recherche et pagination 
 - Sauvegarde en base de données
 
 
@@ -36,7 +40,7 @@ Un filtre de recherche est présent sur les listes.
 - npm install
 - cp .env.example .env
 - php artisan key:generate
-=> créer la base de données et renseigner les identifiants dans le .env
+- => créer la base de données et renseigner les identifiants dans le .env
 - php artisan migrate --seed
 - npm run dev
 - php artisan serve
