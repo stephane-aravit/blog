@@ -10,10 +10,10 @@ L'utilisateur connecté a accès à son profil pour le modifier.
 
 
 ## 👀 Aperçu
-![Frontoffice : Accueil](src/assets/screenshot-frontoffice-accueil.png)
-![Backoffice : Tableau de bord](src/assets/screenshot-backoffice-tableau-de-bord.png)
-![Backoffice : Liste articles](src/assets/screenshot-backoffice-liste-articles.png)
-![Backoffice : Edition article](src/assets/screenshot-backoffice-edition-article.png)
+![Frontoffice : Accueil](screenshots/screenshot-frontoffice-accueil.png)
+![Backoffice : Tableau de bord](screenshots/screenshot-backoffice-tableau-de-bord.png)
+![Backoffice : Liste articles](screenshots/screenshot-backoffice-liste-articles.png)
+![Backoffice : Edition article](screenshots/screenshot-backoffice-edition-article.png)
 
 
 ## 🛠️ Technologies
