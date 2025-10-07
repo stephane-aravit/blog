@@ -60,7 +60,7 @@ function goToPage(page: number) {
     <AppLayout :breadcrumbs="breadcrumbs">
         <div class="flex h-full flex-1 flex-col gap-4 overflow-x-auto rounded-xl p-4">
             <div class="relative min-h-[100vh] flex-1 rounded-xl border border-sidebar-border/70 p-6 md:min-h-min dark:border-sidebar-border">
-                <h1 class="mb-4 text-3xl font-bold">Liste des utilisateurs</h1>
+                <h1 class="mb-4 text-3xl font-bold">Liste des utilisateurs ({{ props.users.total }})</h1>
                 <div class="mb-4 flex justify-between">
                     <Link href="/users/create" class="mb-4 inline-block rounded bg-blue-500 px-4 py-2 text-white hover:bg-blue-600">
                         Créer une nouvel utilisateur
