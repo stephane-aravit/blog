@@ -48,9 +48,9 @@ const submit = () => {
                 </h1>
                 <form @submit.prevent="submit" class="space-y-4">
                     <div>
-                        <label for="title" class="block text-sm font-medium text-gray-700">Titre</label>
+                        <label for="post-title" class="block text-sm font-medium text-gray-700">Titre</label>
                         <input
-                            id="title"
+                            id="post-title"
                             v-model="form.title"
                             type="text"
                             :class="[
@@ -63,9 +63,9 @@ const submit = () => {
                         <div v-if="form.errors.title" class="text-sm text-red-500">{{ form.errors.title }}</div>
                     </div>
                     <div>
-                        <label for="content" class="block text-sm font-medium text-gray-700">Contenu</label>
+                        <label for="post-content" class="block text-sm font-medium text-gray-700">Contenu</label>
                         <textarea
-                            id="content"
+                            id="post-content"
                             v-model="form.content"
                             rows="5"
                             :class="[
@@ -78,10 +78,10 @@ const submit = () => {
                         <div v-if="form.errors.content" class="text-sm text-red-500">{{ form.errors.content }}</div>
                     </div>
                     <div>
-                        <label class="block text-sm font-medium text-gray-700">Catégories</label>
+                        <span class="block text-sm font-medium text-gray-700">Catégories</span>
                         <div v-for="category in props.categories" :key="category.id" class="flex items-center space-x-2">
                             <input
-                                :id="`category-${category.id}`"
+                                :id="`post-category-${category.id}`"
                                 type="checkbox"
                                 :value="category.id"
                                 v-model="form.categories"
@@ -91,13 +91,14 @@ const submit = () => {
                                 ]"
                                 :disabled="props.readonly"
                             />
-                            <label :for="`category-${category.id}`">{{ category.name }}</label>
+                            <label :for="`post-category-${category.id}`">{{ category.name }}</label>
                         </div>
                         <div v-if="form.errors.categories" class="text-sm text-red-500">{{ form.errors.categories }}</div>
                     </div>
                     <div v-if="page.props.auth.user.role === 'admin'">
-                        <label class="block text-sm font-medium text-gray-700">Utilisateur</label>
+                        <label for="post-user" class="block text-sm font-medium text-gray-700">Utilisateur</label>
                         <select
+                            id="post-user"
                             v-model="form.user_id"
                             :class="[
                                 'mt-1 block w-full rounded-md border border-gray-300 p-2 shadow-sm focus:border-blue-500 focus:ring-blue-500 sm:text-sm',

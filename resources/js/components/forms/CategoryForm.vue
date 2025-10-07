@@ -40,9 +40,9 @@ const submit = () => {
                 <h1 class="mb-4 text-3xl font-bold">{{ props.category ? "Édition d'une catégorie" : "Création d'une catégorie" }}</h1>
                 <form @submit.prevent="submit" class="space-y-4">
                     <div>
-                        <label for="name" class="block text-sm font-medium text-gray-700">Nom</label>
+                        <label for="category-name" class="block text-sm font-medium text-gray-700">Nom</label>
                         <input
-                            id="name"
+                            id="category-name"
                             v-model="form.name"
                             type="text"
                             class="mt-1 block w-full rounded-md border border-gray-300 p-2 shadow-sm focus:border-blue-500 focus:ring-blue-500 sm:text-sm"
@@ -52,9 +52,9 @@ const submit = () => {
                         <div v-if="form.errors.name" class="text-sm text-red-500">{{ form.errors.name }}</div>
                     </div>
                     <div>
-                        <label for="description" class="block text-sm font-medium text-gray-700">Description</label>
+                        <label for="category-description" class="block text-sm font-medium text-gray-700">Description</label>
                         <textarea
-                            id="description"
+                            id="category-description"
                             v-model="form.description"
                             rows="5"
                             class="mt-1 block w-full rounded-md border border-gray-300 p-2 shadow-sm focus:border-blue-500 focus:ring-blue-500 sm:text-sm"

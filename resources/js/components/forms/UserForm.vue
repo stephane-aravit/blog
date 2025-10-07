@@ -44,9 +44,9 @@ const submit = () => {
                 <h1 class="mb-4 text-3xl font-bold">{{ props.user ? "Édition d'un utilisateur" : "Création d'un utilisateur" }}</h1>
                 <form @submit.prevent="submit" class="space-y-4">
                     <div>
-                        <label for="name" class="block text-sm font-medium text-gray-700">Nom</label>
+                        <label for="user-name" class="block text-sm font-medium text-gray-700">Nom</label>
                         <input
-                            id="name"
+                            id="user-name"
                             v-model="form.name"
                             type="text"
                             class="mt-1 block w-full rounded-md border border-gray-300 p-2 shadow-sm focus:border-blue-500 focus:ring-blue-500 sm:text-sm"
@@ -56,9 +56,9 @@ const submit = () => {
                         <div v-if="form.errors.name" class="text-sm text-red-500">{{ form.errors.name }}</div>
                     </div>
                     <div>
-                        <label for="email" class="block text-sm font-medium text-gray-700">Email</label>
+                        <label for="user-email" class="block text-sm font-medium text-gray-700">Email</label>
                         <input
-                            id="email"
+                            id="user-email"
                             v-model="form.email"
                             type="text"
                             class="mt-1 block w-full rounded-md border border-gray-300 p-2 shadow-sm focus:border-blue-500 focus:ring-blue-500 sm:text-sm"
@@ -68,9 +68,9 @@ const submit = () => {
                         <div v-if="form.errors.email" class="text-sm text-red-500">{{ form.errors.email }}</div>
                     </div>
                     <div>
-                        <label for="password" class="block text-sm font-medium text-gray-700">Mot de passe</label>
+                        <label for="user-password" class="block text-sm font-medium text-gray-700">Mot de passe</label>
                         <input
-                            id="password"
+                            id="user-password"
                             v-model="form.password"
                             type="password"
                             class="mt-1 block w-full rounded-md border border-gray-300 p-2 shadow-sm focus:border-blue-500 focus:ring-blue-500 sm:text-sm"
@@ -80,9 +80,9 @@ const submit = () => {
                         <div v-if="form.errors.password" class="text-sm text-red-500">{{ form.errors.password }}</div>
                     </div>
                     <div>
-                        <label for="password_confirmation" class="block text-sm font-medium text-gray-700">Confirmation mot de passe</label>
+                        <label for="user-password-confirmation" class="block text-sm font-medium text-gray-700">Confirmation mot de passe</label>
                         <input
-                            id="password_confirmation"
+                            id="user-password-confirmation"
                             v-model="form.password_confirmation"
                             type="password"
                             class="mt-1 block w-full rounded-md border border-gray-300 p-2 shadow-sm focus:border-blue-500 focus:ring-blue-500 sm:text-sm"
@@ -92,8 +92,9 @@ const submit = () => {
                         <div v-if="form.errors.password_confirmation" class="text-sm text-red-500">{{ form.errors.password_confirmation }}</div>
                     </div>
                     <div>
-                        <label for="role" class="block text-sm font-medium text-gray-700">Rôle</label>
+                        <label for="user-role" class="block text-sm font-medium text-gray-700">Rôle</label>
                         <select
+                            id="user-role"
                             v-model="form.role"
                             :class="[
                                 'mt-1 block w-full rounded-md border border-gray-300 p-2 shadow-sm focus:border-blue-500 focus:ring-blue-500 sm:text-sm',
