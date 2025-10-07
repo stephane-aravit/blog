@@ -71,12 +71,14 @@ function goToPage(page: number) {
                     <div class="inline-block">
                         <input
                             type="search"
+                            name="article_search"
                             v-model="search"
                             placeholder="Filtre par mot-clés"
                             class="mr-2 ml-2 inline-block rounded border border-blue-500 px-4 py-2 hover:ring-1 hover:ring-blue-500 focus:ring-1 focus:ring-blue-500 focus:outline-none"
                         />
                         <div class="relative inline-block">
                             <select
+                                name="article_sort_field"
                                 v-model="sortField"
                                 class="mr-2 ml-2 inline-block appearance-none rounded border border-blue-500 py-2 pr-8 pl-4 hover:ring-1 hover:ring-blue-500 focus:outline-none"
                             >
@@ -91,6 +93,7 @@ function goToPage(page: number) {
                         </div>
                         <div class="relative inline-block">
                             <select
+                                name="article_sort_order"
                                 v-model="sortOrder"
                                 class="mr-2 ml-2 inline-block appearance-none rounded border border-blue-500 py-2 pr-8 pl-4 hover:ring-1 hover:ring-blue-500 focus:outline-none"
                             >
