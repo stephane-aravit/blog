@@ -17,17 +17,17 @@ L'utilisateur connecté a accès à son profil pour le modifier.
 
 
 ## 🛠️ Technologies
-- **Backend** : Laravel 12, Inertia 2
-- **Frontend** : Vue.js 3, Tailwind CSS  
+- **Backend** : Laravel 12 (avec StarterKit Vue), Inertia 2
+- **Frontend** : Vue.js 3, Tailwind CSS
 - **Langages** : Php, Sql, Html, Css, JavaScript, TypeScript
-- **Outils** : Composer, Node, Vite, VS Code, Git, MySql/PostgreSql 
+- **Outils** : Composer, Node, Vite, VS Code, Git, MySql/PostgreSql
 
 
 
 ## ✨ Fonctionnalités
 - Authentification et profil utilisateur
-- Création/Lecture/Modification/Suppression un élément de type article/catégorie/commentaire/utilisateur 
-- Filtrage d'une recherche et pagination 
+- Création/Lecture/Modification/Suppression un élément de type article/catégorie/commentaire/utilisateur
+- Filtrage d'une recherche et pagination
 - Sauvegarde en base de données
 
 
